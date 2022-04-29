@@ -1,0 +1,30 @@
+{
+  "name": "dc",
+  "version": "1.0.0",
+  "description": "Discord bot, developed by bedwarsmurf#6849",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "bot",
+    "2022",
+    "how",
+    "to",
+    "make",
+    "a",
+    "discord",
+    "bot",
+    "javascript",
+    "python",
+    "nodejs"
+  ],
+  "author": "bedwarsmurf#6849",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
+  }
+}
