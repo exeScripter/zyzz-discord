@@ -12,7 +12,7 @@ const client = new Discord.Client({
 })
 // When bot is ONLINE ==> then it types in console (Logged in as Zyzz | The Legend)
 client.on("ready", () => {
-    console.log('Logged in as Zyzz | The Legend ')
+    console.log(`Logged in as ${client.user.tag}!`)
 })
 // First command, when you type "hi" it responds with "Hello, brah"
 client.on("messageCreate", (message) => {
