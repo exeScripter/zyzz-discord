@@ -1,7 +1,7 @@
-const Discord = require("discord.js");
-require("dotenv").config();
+const Discord = require("discord.js")
+require("dotenv").config()
 
-const generateImage = require("./generateImage");
+// const generateImage = require("./generateImage")
 
 const client = new Discord.Client({
     intents: [
@@ -10,27 +10,49 @@ const client = new Discord.Client({
         "GUILD_MEMBERS"
     ]
 })
-// When bot is ONLINE ==> then it types in console (Logged in as Zyzz | The Legend)
-client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}!`)
-})
-// First command, when you type "hi" it responds with "Hello, brah"
-client.on("messageCreate", (message) => {
-    if (message.content == "hi") {
-        message.reply("Hello, brah")
-    }
-})
-// makes a const with welcome channel id
-const welcomeChannelId = "969653068247465984"
+
+let bot = {
+    client, 
+    prefix: "z.",
+    owners: ["144455131381891072"]
+}
+
+client.commands = new Discord.Collection()
+client.events = new Discord.Collection()
+client.slashcommands = new Discord.Collection()
+client.buttons = new Discord.Collection()
+
+client.loadEvents = (bot, reload) => require("./handlers/events")(bot, reload)
+client.loadCommands = (bot, reload) => require("./handlers/commands")(bot, reload)
+client.loadSlashCommands = (bot, reload) => require("./handlers/slashcommands")(bot, reload)
+client.loadButtons = (bot, reload) => require("./handlers/buttons")(bot, reload)
+
+client.loadEvents(bot, false)
+client.loadCommands(bot, false)
+client.loadSlashCommands(bot, false)
+client.loadButtons(bot, false)
 
 
-// welcome message
-client.on("guildMemberAdd", async (member) => {
-    const img = await generateImage(member)
-    member.guild.channels.cache.get(welcomeChannelId).send({
-        content:`<@${member.id}> Welcome to the server brah!`,
-        files: [img]
-    })
-})
+module.exports = bot
+
+// client.on("ready", () => {
+//     console.log(`Logged in as ${client.user.tag}`)
+// })
+
+// client.on("messageCreate", (message) => {
+//     if (message.content == "hi"){
+//         message.reply("Hello World!")
+//     }
+// })
+
+// const welcomeChannelId = "926530810008453120"
+
+// client.on("guildMemberAdd", async (member) => {
+//     const img = await generateImage(member)
+//     member.guild.channels.cache.get(welcomeChannelId).send({
+//         content: `<@${member.id}> Welcome to the server!`,
+//         files: [img]
+//     })
+// })
 
 client.login(process.env.TOKEN)

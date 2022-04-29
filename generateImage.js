@@ -1,6 +1,5 @@
-const Canvas = require("canvas");
-const Discord = require("discord.js");
-
+const Canvas = require("canvas")
+const Discord = require("discord.js")
 const background = "https://i.imgur.com/zvWTUVu.jpg"
 
 const dim = {
@@ -10,7 +9,9 @@ const dim = {
 }
 
 const av = {
-    size: 256 
+    size: 256,
+    x: 480,
+    y: 170
 }
 
 const generateImage = async (member) => {
@@ -19,12 +20,11 @@ const generateImage = async (member) => {
     let avatarURL = member.user.displayAvatarURL({format: "png", dynamic: false, size: av.size})
 
     const canvas = Canvas.createCanvas(dim.width, dim.height)
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d")
 
     // draw in the background
     const backimg = await Canvas.loadImage(background)
     ctx.drawImage(backimg, 0, 0)
-
 
     // draw black tinted box
     ctx.fillStyle = "rgba(0,0,0,0.8)"
@@ -32,13 +32,13 @@ const generateImage = async (member) => {
 
     const avimg = await Canvas.loadImage(avatarURL)
     ctx.save()
-
+    
     ctx.beginPath()
     ctx.arc(av.x + av.size / 2, av.y + av.size / 2, av.size / 2, 0, Math.PI * 2, true)
     ctx.closePath()
     ctx.clip()
 
-    ctx.drawImage(avimg, av.x, av.x)
+    ctx.drawImage(avimg, av.x, av.y)
     ctx.restore()
 
     // write in text
@@ -55,10 +55,10 @@ const generateImage = async (member) => {
 
     // draw in to the server
     ctx.font = "40px Roboto"
-    ctx.fillText("to the server", dim.width/2 , dim.height - dim.margin - 50)
+    ctx.fillText("to the server", dim.width / 2, dim.height - dim.margin - 50)
 
-    const attachement = new Discord.MessageAttachment(canvas.toBuffer(), "welcome.png")
-    return attachement
+    const attachment = new Discord.MessageAttachment(canvas.toBuffer(), "welcome.png")
+    return attachment
 }
 
 module.exports = generateImage
